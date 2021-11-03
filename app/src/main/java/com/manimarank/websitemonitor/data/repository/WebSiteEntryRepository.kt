@@ -86,6 +86,7 @@ class WebSiteEntryRepository(context: Context) {
             try {
                 val url = URL(websiteEntry.url)
                 val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.setRequestProperty("User-Agent", "WebSite Monitor Bot")
                 conn.connect()
 
                 status = conn.responseCode
