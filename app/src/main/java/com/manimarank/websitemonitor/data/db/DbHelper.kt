@@ -1,10 +1,19 @@
 package com.manimarank.websitemonitor.data.db
 
 import android.content.Context
-import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.room.AutoMigration
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
-@Database(entities = [WebSiteEntry::class], version = 1, exportSchema = false)
+@Database(
+    entities = [WebSiteEntry::class],
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration (from = 1, to = 2)
+    ]
+)
 abstract class DbHelper: RoomDatabase() {
 
     abstract fun webSiteEntryDao(): WebSiteEntryDao

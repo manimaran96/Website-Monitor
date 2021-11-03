@@ -7,3 +7,5 @@
 /captures
 .externalNativeBuild
 .cxx
+.vscode/linenote
+app/release

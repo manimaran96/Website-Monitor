@@ -14,7 +14,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.google.android.material.snackbar.Snackbar
+import com.manimarank.websitemonitor.MyApplication
 import com.manimarank.websitemonitor.R
+import com.manimarank.websitemonitor.data.model.WebSiteStatus
 import com.manimarank.websitemonitor.ui.home.MainActivity
 import com.manimarank.websitemonitor.utils.Constants.DEFAULT_INTERVAL_MIN
 import com.manimarank.websitemonitor.utils.Constants.NOTIFICATION_CHANNEL_DESCRIPTION
@@ -31,6 +33,10 @@ import java.text.DateFormat
 import java.util.*
 
 object Utils {
+
+    val lineEnd = System.lineSeparator()
+    var totalAmountEntry = 0
+
     fun currentDateTime(): String {
         return DateFormat.getDateTimeInstance().format(Date())
     }
@@ -94,11 +100,16 @@ object Utils {
         return "Checking every ${refreshTime ?: "1 hour once"}"
     }
 
-    fun isCustomRom(): Boolean { return listOf("xiaomi", "oppo", "vivo").contains(android.os.Build.MANUFACTURER.toLowerCase(Locale.ROOT)) }
+    fun isCustomRom(): Boolean {
+        return listOf("xiaomi", "oppo", "vivo")
+            .contains(
+                android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)
+            )
+    }
 
     fun openAutoStartScreen(context: Context) {
         val intent = Intent()
-        when(android.os.Build.MANUFACTURER.toLowerCase(Locale.ROOT)) {
+        when(android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)) {
             "xiaomi" -> intent.component= ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
             "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
             "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
@@ -193,11 +204,42 @@ object Utils {
         return status >= 500
     }
 
-    fun isValidNotifyStatus(status: Int): Boolean {
-        val isEnabledServerFailOnly = SharedPrefsManager.customPrefs.getBoolean(Constants.NOTIFY_ONLY_SERVER_ISSUES, false)
-        return if (isEnabledServerFailOnly)
+    fun mayNotifyStatusFailure(status: Int): Boolean {
+        val isEnabledServerFailOnly = SharedPrefsManager
+            .customPrefs.getBoolean(Constants.NOTIFY_ONLY_SERVER_ISSUES, false)
+        return if (isEnabledServerFailOnly) {
             status != HttpURLConnection.HTTP_OK && isServerRelatedFail(status)
-        else
+        } else {
             status != HttpURLConnection.HTTP_OK
+        }
     }
+
+    fun Context.getStringNotWorking(url: String): String {
+        return String.format(
+            this.getString(
+                R.string.not_working,
+                url
+            )
+        )
+    }
+
+    fun List<WebSiteStatus>.joinToStringDescription(): String {
+        return this.joinToString(lineEnd) { status ->
+            status.name
+        }
+    }
+
+    fun resumeApp() {
+        MyApplication.ActivityVisibility.resumeApp()
+    }
+
+    fun pauseApp() {
+        MyApplication.ActivityVisibility.pauseApp()
+    }
+
+    fun appIsVisible(): Boolean {
+        return MyApplication.ActivityVisibility.appIsVisible
+    }
+
+    fun String.removeUrlProto(): String = this.replace(Regex("""^http[s]?://"""), "")
 }
