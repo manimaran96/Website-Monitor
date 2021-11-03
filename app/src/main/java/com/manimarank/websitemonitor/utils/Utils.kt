@@ -27,12 +27,12 @@ import com.manimarank.websitemonitor.utils.SharedPrefsManager.set
 import com.manimarank.websitemonitor.worker.WorkManagerScheduler
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.*
 
 object Utils {
     fun currentDateTime(): String {
-        return SimpleDateFormat("dd-MMM-yyyy hh:mm:ss:a", Locale.ENGLISH).format(Date())
+        return DateFormat.getDateTimeInstance().format(Date())
     }
 
     fun showNotification(context: Context, title: String, message: String) {
