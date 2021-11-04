@@ -1,0 +1,5 @@
+- Added: Refresh menu option
+- Fix: Grab Website favicons through DuckDuckGo, instead of Google.
+- Added: Do not show Notifications while App is in Foreground.
+- Fix: Show only a single notification, if more than one website is not reachable.
+- Added: Drag & Drop to re-order Website entries.
