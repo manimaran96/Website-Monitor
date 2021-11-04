@@ -48,12 +48,12 @@ class CreateEntryActivity : AppCompatActivity() {
      * */
     private fun saveEntry() {
         if (validateFields()) {
-            val id = if (webSiteEntry != null) webSiteEntry?.id else null
+            val id = webSiteEntry?.id
             val todo = WebSiteEntry(
                 id = id,
                 name = activityCreateEntryBinding.editName.text.toString(),
                 url = activityCreateEntryBinding.editUrl.text.toString(),
-                itemPosition = Utils.totalAmountEntry
+                itemPosition = if (webSiteEntry != null) { webSiteEntry?.itemPosition } else { Utils.totalAmountEntry },
             )
             val intent = Intent()
             intent.putExtra(Constants.INTENT_OBJECT, todo)
