@@ -83,9 +83,10 @@ class WebSiteEntryRepository(context: Context) {
         var  webSiteStatus: WebSiteStatus
         withContext(Dispatchers.IO) {
             var status = HttpURLConnection.HTTP_NOT_FOUND
+            var conn: HttpURLConnection? = null
             try {
                 val url = URL(websiteEntry.url)
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn = url.openConnection() as HttpURLConnection
                 conn.setRequestProperty("User-Agent", "WebSite Monitor Bot")
                 conn.connect()
 
@@ -105,6 +106,12 @@ class WebSiteEntryRepository(context: Context) {
                     false,
                     e.localizedMessage ?: "Please check"
                 )
+            } finally {
+                try {
+                    conn?.disconnect()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
             updateWebSiteEntry(websiteEntry.apply {
