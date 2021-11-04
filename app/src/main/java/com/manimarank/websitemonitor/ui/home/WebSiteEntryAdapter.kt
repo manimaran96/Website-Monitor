@@ -57,7 +57,7 @@ class WebSiteEntryAdapter(todoEvents: WebSiteEntryEvents) : RecyclerView.Adapter
 
                 val iconUrl = "https://icons.duckduckgo.com/ip3/${webSiteEntry.url.removeUrlProto()}.ico"
                 try {
-                    Glide.with(binding.imgLogo.context).load(iconUrl).apply(RequestOptions.circleCropTransform()).into(binding.imgLogo)
+                    Glide.with(binding.imgLogo.context).load(iconUrl).apply(RequestOptions.circleCropTransform()).placeholder(R.mipmap.ic_launcher_round).into(binding.imgLogo)
                 } catch (e: Exception) {
                     Print.log(e.message ?: "Exception occured when using Glide to load Website Logo.")
                 }
