@@ -4,6 +4,7 @@ package com.manimarank.websitemonitor.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.manimarank.websitemonitor.R
 import com.manimarank.websitemonitor.data.repository.WebSiteEntryRepository
 import com.manimarank.websitemonitor.utils.Print
 import com.manimarank.websitemonitor.utils.Utils
@@ -34,8 +35,7 @@ class SyncWorker(appContext: Context, workerParams: WorkerParameters) :
 
         Print.log("Fetching Data from Remote hosts...")
         return try {
-            val entriesWithFailedConnection =
-                repository.checkWebSiteStatus().filter { Utils.mayNotifyStatusFailure(it.status) }
+            val entriesWithFailedConnection = repository.checkWebSiteStatus().filter { Utils.mayNotifyStatusFailure(it.status) }
             if (entriesWithFailedConnection.size == 1) {
                 val entryWithFailedConnection = entriesWithFailedConnection.first()
                 Utils.showNotification(
@@ -43,10 +43,10 @@ class SyncWorker(appContext: Context, workerParams: WorkerParameters) :
                     entryWithFailedConnection.name,
                     applicationContext.getStringNotWorking(entryWithFailedConnection.url)
                 )
-            } else {
+            } else if (entriesWithFailedConnection.size > 1){
                 Utils.showNotification(
                     applicationContext,
-                    "Several Websites are not reachable!",
+                    applicationContext.getString(R.string.several_websites_not_reachable),
                     entriesWithFailedConnection.joinToStringDescription()
                 )
             }

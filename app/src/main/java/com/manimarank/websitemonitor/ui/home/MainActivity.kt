@@ -182,14 +182,11 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
                 return@observe
             }
 
-            val entriesWithFailedConnection =
-                it.filter {
-                    Utils.mayNotifyStatusFailure(it.status) &&
-                    customMonitorData.showNotification
-                }
+            val entriesWithFailedConnection = it.filter { Utils.mayNotifyStatusFailure(it.status) && customMonitorData.showNotification }
 
             val customMonitorEnabled = runningCount >= 1
             val runningCountText = if (customMonitorEnabled) { "#${runningCount - 1} " } else { "" }
+            val severalWebsitesNotReachable = getString(R.string.several_websites_not_reachable)
             if (entriesWithFailedConnection.size == 1) {
                 val entryWithFailedConnection = entriesWithFailedConnection.first()
                 if (customMonitorEnabled) {
@@ -205,17 +202,17 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else {
+            } else if (entriesWithFailedConnection.size > 1) {
                 if (customMonitorEnabled) {
                     showNotification(
                         applicationContext,
-                        runningCountText + "Several Websites are not reachable!",
+                        runningCountText + severalWebsitesNotReachable,
                         entriesWithFailedConnection.joinToStringDescription()
                     )
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Several Websites are not reachable!",
+                        severalWebsitesNotReachable,
                         Toast.LENGTH_LONG
                     ).show()
                 }
