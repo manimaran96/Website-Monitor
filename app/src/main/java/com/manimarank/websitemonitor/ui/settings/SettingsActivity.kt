@@ -11,12 +11,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.manimarank.websitemonitor.R
 import com.manimarank.websitemonitor.databinding.ActivitySettingsBinding
+import com.manimarank.websitemonitor.utils.Constants.IS_DARK_MODE_ENABLED
 import com.manimarank.websitemonitor.utils.Constants.MONITORING_INTERVAL
 import com.manimarank.websitemonitor.utils.Constants.NOTIFY_ONLY_SERVER_ISSUES
 import com.manimarank.websitemonitor.utils.Interval.nameList
 import com.manimarank.websitemonitor.utils.Interval.valueList
 import com.manimarank.websitemonitor.utils.SharedPrefsManager
 import com.manimarank.websitemonitor.utils.SharedPrefsManager.set
+import com.manimarank.websitemonitor.utils.Utils
 import com.manimarank.websitemonitor.utils.Utils.getMonitorTime
 import com.manimarank.websitemonitor.utils.Utils.isCustomRom
 import com.manimarank.websitemonitor.utils.Utils.openAutoStartScreen
@@ -55,6 +57,14 @@ class SettingsActivity : AppCompatActivity() {
         switchNotifyOnlyServerIssues.isChecked = SharedPrefsManager.customPrefs.getBoolean(NOTIFY_ONLY_SERVER_ISSUES, false)
         switchNotifyOnlyServerIssues.setOnCheckedChangeListener { _, isChecked ->
             SharedPrefsManager.customPrefs[NOTIFY_ONLY_SERVER_ISSUES] = isChecked
+        }
+
+        activitySettingsBinding.switchDarkMode.isChecked = SharedPrefsManager.customPrefs.getBoolean(IS_DARK_MODE_ENABLED, false)
+        activitySettingsBinding.switchDarkMode.text  = getString(if (activitySettingsBinding.switchDarkMode.isChecked) R.string.disable_dark_mode else R.string.enable_dark_mode)
+        activitySettingsBinding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            SharedPrefsManager.customPrefs[IS_DARK_MODE_ENABLED] = isChecked
+            activitySettingsBinding.switchDarkMode.text  = getString(if (isChecked) R.string.disable_dark_mode else R.string.enable_dark_mode)
+            Utils.enableDarkMode(isChecked)
         }
     }
 

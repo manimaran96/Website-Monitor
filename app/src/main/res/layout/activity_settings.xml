@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 app:cornerRadius="5dp"
-                app:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorAccent"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:paddingStart="20dp"
@@ -93,6 +93,32 @@
                 android:layout_width="match_parent"
                 app:switchPadding="10dp"
                 android:text="@string/notify_only_server_side_issues_info"
+                android:textSize="@dimen/text_small"
+                android:checked="false"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:text="@string/enable_or_disable_dark_mode"
+                android:textSize="@dimen/text_normal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchDarkMode"
+                android:layout_width="match_parent"
+                app:switchPadding="10dp"
+                android:text="@string/enable_dark_mode"
                 android:textSize="@dimen/text_small"
                 android:checked="false"
                 android:layout_height="wrap_content"/>

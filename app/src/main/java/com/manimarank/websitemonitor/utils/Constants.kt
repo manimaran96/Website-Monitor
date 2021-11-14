@@ -18,6 +18,5 @@ object Constants {
     const val MONITORING_INTERVAL: String = "monitoring_interval"
     const val IS_AUTO_START_SHOWN : String = "is_auto_start_shown"
     const val NOTIFY_ONLY_SERVER_ISSUES : String = "notify_only_server_issues"
-
-
+    const val IS_DARK_MODE_ENABLED : String = "is_dark_mode_enabled"
 }

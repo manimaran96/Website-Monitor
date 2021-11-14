@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
         customRefreshInputBinding = CustomRefreshInputBinding.inflate(layoutInflater, binding.root, false)
 
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
 
         // Edit Website Entry Result Launcher
         onEditClickedResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -106,7 +105,7 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
         }
 
         // Fab click listener
-        var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val webSiteEntry = data?.getParcelableExtra<WebSiteEntry>(Constants.INTENT_OBJECT)!!

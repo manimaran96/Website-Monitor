@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         app:cornerRadius="5dp"
-        android:textColor="@color/white"
+        android:textColor="#ffffff"
         android:textStyle="bold"
         android:textSize="@dimen/text_x_normal"
         android:layout_gravity="center"
         android:padding="12dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:text="@string/provide_custom_monitor_values"/>
 
     <LinearLayout
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:cornerRadius="5dp"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorAccent"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:paddingStart="30dp"

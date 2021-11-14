@@ -58,4 +58,7 @@
     <string name="check_internet">Please check your internet connection!</string>
     <string name="several_websites_not_reachable">Several Websites are not reachable!</string>
     <string name="action_refresh_title">Refresh</string>
+    <string name="enable_dark_mode">Enable dark mode</string>
+    <string name="disable_dark_mode">Disable dark mode</string>
+    <string name="enable_or_disable_dark_mode">Enable/Disable Dark mode</string>
 </resources>

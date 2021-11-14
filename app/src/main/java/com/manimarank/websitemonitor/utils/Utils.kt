@@ -12,6 +12,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
 import com.google.android.material.snackbar.Snackbar
 import com.manimarank.websitemonitor.MyApplication
@@ -242,4 +243,8 @@ object Utils {
     }
 
     fun String.removeUrlProto(): String = this.replace(Regex("""^http[s]?://"""), "")
+
+    fun enableDarkMode(isDarkModeEnabled: Boolean) {
+        AppCompatDelegate.setDefaultNightMode(if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+    }
 }
