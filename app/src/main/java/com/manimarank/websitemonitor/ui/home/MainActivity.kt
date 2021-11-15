@@ -5,9 +5,7 @@ import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
@@ -32,9 +30,9 @@ import com.manimarank.websitemonitor.utils.NetworkUtils
 import com.manimarank.websitemonitor.utils.Print
 import com.manimarank.websitemonitor.utils.Utils
 import com.manimarank.websitemonitor.utils.Utils.appIsVisible
+import com.manimarank.websitemonitor.utils.Utils.askToRunBackground
 import com.manimarank.websitemonitor.utils.Utils.getStringNotWorking
 import com.manimarank.websitemonitor.utils.Utils.joinToStringDescription
-import com.manimarank.websitemonitor.utils.Utils.showAutoStartEnableDialog
 import com.manimarank.websitemonitor.utils.Utils.showNotification
 import com.manimarank.websitemonitor.utils.Utils.startWorkManager
 
@@ -221,9 +219,8 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
         startWorkManager(this)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            if (!isDestroyed) showAutoStartEnableDialog(
-                this
-            )
+            if (!isDestroyed)
+                askToRunBackground()
         }, 1000)
 
     }

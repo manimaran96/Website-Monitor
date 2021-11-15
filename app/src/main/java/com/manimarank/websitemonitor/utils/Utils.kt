@@ -1,14 +1,15 @@
 package com.manimarank.websitemonitor.utils
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -136,6 +137,25 @@ object Utils {
             val dialog = alertBuilder.create()
             dialog.setCancelable(false)
             dialog.show()
+        }
+    }
+
+    object RequestCode {
+        const val RC_IGNORE_BATTERY_OPTIMIZATION = 101
+    }
+
+    @SuppressLint("BatteryLife")
+    fun Activity.askToRunBackground(requestCode: Int = RequestCode.RC_IGNORE_BATTERY_OPTIMIZATION) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val pm = this.getSystemService(Context.POWER_SERVICE) as PowerManager
+            val isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(packageName)
+            if (!isIgnoringBatteryOptimizations) {
+                val intent = Intent().apply {
+                    action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                    data = Uri.parse("package:$packageName")
+                }
+                startActivityForResult(intent, requestCode)
+            }
         }
     }
 
