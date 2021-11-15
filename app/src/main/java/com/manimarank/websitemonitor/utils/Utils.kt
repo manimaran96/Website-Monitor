@@ -103,24 +103,34 @@ object Utils {
     }
 
     fun isCustomRom(): Boolean {
-        return listOf("xiaomi", "oppo", "vivo")
+        return listOf("xiaomi", "oppo", "vivo", "letv", "honor")
             .contains(
-                android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)
+                Build.MANUFACTURER.lowercase(Locale.ROOT)
             )
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     fun openAutoStartScreen(context: Context) {
-        val intent = Intent()
-        when(android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)) {
-            "xiaomi" -> intent.component= ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
-            "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
-            "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
+        try {
+            val intent = Intent()
+            // https://stackoverflow.com/questions/39366231/how-to-check-miui-autostart-permission-programmatically
+            when(Build.MANUFACTURER.lowercase(Locale.ROOT)) {
+                "xiaomi" -> intent.component= ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
+                "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
+                "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
+                "letv" -> intent.component = ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")
+                "honor" -> intent.component = ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")
+            }
+
+            val list = context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            if (list.size > 0) {
+                context.startActivity(intent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
         }
 
-        val list = context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-        if (list.size > 0) {
-            context.startActivity(intent)
-        }
     }
 
     fun showAutoStartEnableDialog(context: Context) {
