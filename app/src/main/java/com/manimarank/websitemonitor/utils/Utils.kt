@@ -1,17 +1,19 @@
 package com.manimarank.websitemonitor.utils
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
 import com.google.android.material.snackbar.Snackbar
 import com.manimarank.websitemonitor.MyApplication
@@ -101,24 +103,34 @@ object Utils {
     }
 
     fun isCustomRom(): Boolean {
-        return listOf("xiaomi", "oppo", "vivo")
+        return listOf("xiaomi", "oppo", "vivo", "letv", "honor")
             .contains(
-                android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)
+                Build.MANUFACTURER.lowercase(Locale.ROOT)
             )
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     fun openAutoStartScreen(context: Context) {
-        val intent = Intent()
-        when(android.os.Build.MANUFACTURER.lowercase(Locale.ROOT)) {
-            "xiaomi" -> intent.component= ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
-            "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
-            "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
+        try {
+            val intent = Intent()
+            // https://stackoverflow.com/questions/39366231/how-to-check-miui-autostart-permission-programmatically
+            when(Build.MANUFACTURER.lowercase(Locale.ROOT)) {
+                "xiaomi" -> intent.component= ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
+                "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
+                "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
+                "letv" -> intent.component = ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")
+                "honor" -> intent.component = ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")
+            }
+
+            val list = context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            if (list.size > 0) {
+                context.startActivity(intent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
         }
 
-        val list = context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-        if (list.size > 0) {
-            context.startActivity(intent)
-        }
     }
 
     fun showAutoStartEnableDialog(context: Context) {
@@ -135,6 +147,25 @@ object Utils {
             val dialog = alertBuilder.create()
             dialog.setCancelable(false)
             dialog.show()
+        }
+    }
+
+    object RequestCode {
+        const val RC_IGNORE_BATTERY_OPTIMIZATION = 101
+    }
+
+    @SuppressLint("BatteryLife")
+    fun Activity.askToRunBackground(requestCode: Int = RequestCode.RC_IGNORE_BATTERY_OPTIMIZATION) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val pm = this.getSystemService(Context.POWER_SERVICE) as PowerManager
+            val isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(packageName)
+            if (!isIgnoringBatteryOptimizations) {
+                val intent = Intent().apply {
+                    action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                    data = Uri.parse("package:$packageName")
+                }
+                startActivityForResult(intent, requestCode)
+            }
         }
     }
 
@@ -242,4 +273,8 @@ object Utils {
     }
 
     fun String.removeUrlProto(): String = this.replace(Regex("""^http[s]?://"""), "")
+
+    fun enableDarkMode(isDarkModeEnabled: Boolean) {
+        AppCompatDelegate.setDefaultNightMode(if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+    }
 }

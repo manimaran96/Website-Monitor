@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:cornerRadius="5dp"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorAccent"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:paddingStart="30dp"
