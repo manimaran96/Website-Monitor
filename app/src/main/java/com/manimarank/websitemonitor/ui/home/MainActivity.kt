@@ -33,6 +33,7 @@ import com.manimarank.websitemonitor.utils.Utils.appIsVisible
 import com.manimarank.websitemonitor.utils.Utils.askToRunBackground
 import com.manimarank.websitemonitor.utils.Utils.getStringNotWorking
 import com.manimarank.websitemonitor.utils.Utils.joinToStringDescription
+import com.manimarank.websitemonitor.utils.Utils.openUrl
 import com.manimarank.websitemonitor.utils.Utils.showNotification
 import com.manimarank.websitemonitor.utils.Utils.startWorkManager
 
@@ -346,7 +347,9 @@ class MainActivity : AppCompatActivity(), WebSiteEntryAdapter.WebSiteEntryEvents
         )
     }
 
-    override fun onViewClicked(webSiteEntry: WebSiteEntry, adapterPosition: Int) {}
+    override fun onViewClicked(webSiteEntry: WebSiteEntry, adapterPosition: Int) {
+        openUrl(applicationContext, webSiteEntry.url)
+    }
 
     override fun onPauseClicked(webSiteEntry: WebSiteEntry, adapterPosition: Int) {
         viewModel.updateWebSiteEntry(webSiteEntry.apply {
