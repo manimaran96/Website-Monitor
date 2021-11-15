@@ -1,0 +1,4 @@
+- Added: Dark mode UI
+- Fix: Visit web page issue
+- Added: Prompt for running background
+- Minor issues are fixed

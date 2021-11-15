@@ -20,6 +20,7 @@ Website monitor app helps to monitor/track your Website periodically and notify 
 
 ## App Features
 - Simple UI.
+- Dark mode UI.
 - No login required.
 - Get notified when site down.
 - Check website status according to chosen interval.
@@ -27,6 +28,7 @@ Website monitor app helps to monitor/track your Website periodically and notify 
 - Custom monitor option. Useful for continually checking website status every 1 second or 5 minutes. The Second/Minute interval can be manually assigned.
 - Tap a website entry to quickly refresh that particular one.
 - Ability to notify only on Server issue. If enabled, does not notify, if the app has no internet connection.
+- Drag to reorder the website entries.
 
 
 ## Useful links
@@ -45,12 +47,12 @@ Website monitor app helps to monitor/track your Website periodically and notify 
 |:-:|:-:|:-:|:-:|
 | ![First](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png?raw=true) | ![Sec](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png?raw=true) | ![Third](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png?raw=true) | ![Fourth](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png?raw=true) |
 
-| Custom Monitor Info | Update | Pause/Resume | Notification |
+| Custom Monitor Info | Update | Dark mode | Notification |
 |:-:|:-:|:-:|:-:|
 | ![Fifth](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png?raw=true) | ![Sixth](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png?raw=true) | ![Seventh](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png?raw=true) | ![Eighth](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png?raw=true) |
 
 ## TODO
-* Add Dark Mode.
+* ~~Add Dark Mode.~~
 * Export Website Entries to JSON as Backup.
 * Enable Import of Backups.
 * ~~Merge Notifications into single one, if more than one Website is down.~~

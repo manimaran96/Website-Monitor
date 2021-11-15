@@ -4,10 +4,12 @@ Default monitor interval 1 hour once. You can modify the interval by using setti
 <b>App features:</b>
 
 - Simple UI.
+- Dark mode UI.
 - No login required.
-- Notified when site down.
-- App monitor all sites in some period of time interval.
-- Monitor Pause/Resume particular site.
-- Custom monitor option(1 sec to 99 min).
-- Single site quick refresh.
-- Settings for Notify only server issue.
+- Get notified when site down.
+- Check website status according to chosen interval.
+- Pause/Resume Monitoring for a particular site.
+- Custom monitor option. Useful for continually checking website status every 1 second or 5 minutes. The Second/Minute interval can be manually assigned.
+- Tap a website entry to quickly refresh that particular one.
+- Ability to notify only on Server issue. If enabled, does not notify, if the app has no internet connection.
+- Drag to reorder the website entries.
